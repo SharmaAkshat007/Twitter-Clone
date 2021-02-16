@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Sidebar from "./Components/Sidebar.js";
+import Feed from "./Components/Feed.js";
+import Widget from "./Components/Widget.js";
+import Login from "./Components/Login";
+import SignUp from "./Components/SignUp";
+import { Switch, Route, Redirect } from "react-router-dom";
+import auth from "./Components/firebaseAuth";
+import "./App.css";
+import { AuthProvider } from "./Components/AuthContext";
+import PrivateRoutes from "./Components/PrivateRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <AuthProvider>
+        <Switch>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
+          </Route>
+
+          <PrivateRoutes exact path="/">
+            <Sidebar />
+
+            <Feed />
+
+            <Widget />
+          </PrivateRoutes>
+        </Switch>
+      </AuthProvider>
     </div>
   );
 }
